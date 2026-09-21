@@ -2,10 +2,11 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-<title>MI VIDA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MI COLORADA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600;1,700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg: #FBF4EF;
@@ -17,16 +18,12 @@
     --accent-soft: #C68E72;
     --gold: #C9A27A;
     --wood: #B08556;
-    --neutral: #A3A3A0;
     --yellow: #ffd23f;
     --yellow-deep: #f2a900;
     --yellow-light: #ffe98a;
     --green: #3fa25a;
     --green-dark: #256b39;
   }
-  @media (prefers-color-scheme: dark){ :root{ } }
-  :root[data-theme="dark"]{ }
-  :root[data-theme="light"]{ }
 
   *{ box-sizing: border-box; }
   html,body{ margin:0; padding:0; height:100%; }
@@ -35,8 +32,9 @@
     color: var(--ink);
     font-family: 'Cormorant Garamond', serif;
     overflow-x: hidden;
-    min-height:100vh;
-    position:relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    position: relative;
   }
 
   .pixel-bg{
@@ -47,18 +45,12 @@
       linear-gradient(rgba(74,44,29,0.05) 1px, transparent 1px),
       linear-gradient(90deg, rgba(74,44,29,0.05) 1px, transparent 1px);
     background-size: 26px 26px;
-    z-index: -2;
-  }
-  .scanlines{
-    position: fixed;
-    inset: 0;
     z-index: -1;
-    pointer-events: none;
-    background: none;
   }
 
   .screen{
     min-height: 100vh;
+    min-height: 100dvh;
     width: 100%;
     display: none;
     flex-direction: column;
@@ -68,9 +60,9 @@
     text-align: center;
     position: relative;
   }
-  .screen.active{ display:flex; }
+  .screen.active{ display: flex; }
 
-  .pixel-font{
+  .serif-title{
     font-family: 'Playfair Display', serif;
     line-height: 1.7;
   }
@@ -85,39 +77,56 @@
     margin: 0 0 6vh;
   }
 
+  /* ---------- REGALO ---------- */
+  .gift-wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(46vw, 190px);
+  }
   .gift{
     position: relative;
-    width: min(46vw, 190px);
+    display: block;
+    width: 100%;
     cursor: pointer;
     background: none;
     border: none;
     padding: 0;
     -webkit-tap-highlight-color: transparent;
   }
-  .gift:focus-visible .gift-body{ outline: 3px solid var(--yellow); outline-offset: 4px; }
+  .gift:focus-visible{ outline: 3px solid var(--yellow-deep); outline-offset: 6px; }
 
   .gift-lid{
+    display: block;
+    position: relative;
     width: 108%;
-    height: 22%;
+    height: 44px;
     margin-left: -4%;
     background: var(--accent-soft);
-    clip-path: polygon(
-      0% 30%, 8% 30%, 8% 0%, 16% 0%, 16% 30%,
-      84% 30%, 84% 0%, 92% 0%, 92% 30%,
-      100% 30%, 100% 100%, 0% 100%
-    );
-    position: relative;
+    border: 2px solid var(--wood);
     z-index: 2;
     transform-origin: bottom center;
     transition: transform .5s cubic-bezier(.34,1.56,.64,1);
   }
-  .gift-lid::after{
-    content:"";
-    position:absolute; left:44%; top:-46%;
-    width:12%; height:60%;
-    background: var(--wood);
+  .gift-lid::after{ /* cinta vertical de la tapa */
+    content: "";
+    position: absolute;
+    left: 44%; top: 0;
+    width: 12%; height: 100%;
+    background: var(--gold);
+  }
+  .gift-lid::before{ /* moño */
+    content: "";
+    position: absolute;
+    left: 50%; top: -14px;
+    width: 34px; height: 16px;
+    transform: translateX(-50%);
+    background: var(--gold);
+    border-radius: 50% 50% 0 0;
+    z-index: 1;
   }
   .gift-body{
+    display: block;
     width: 100%;
     height: 34vh;
     max-height: 190px;
@@ -126,13 +135,13 @@
     box-shadow: inset -10px -10px 0 rgba(74,44,29,.12), inset 10px 10px 0 rgba(255,255,255,.10);
   }
   .gift-body::before{
-    content:"";
-    position:absolute; left:44%; top:0; width:12%; height:100%;
+    content: "";
+    position: absolute; left: 44%; top: 0; width: 12%; height: 100%;
     background: var(--gold);
   }
   .gift-body::after{
-    content:"";
-    position:absolute; left:0; top:38%; width:100%; height:14%;
+    content: "";
+    position: absolute; left: 0; top: 38%; width: 100%; height: 14%;
     background: var(--gold);
   }
   .gift-shadow{
@@ -150,34 +159,33 @@
     100%{ transform: scale(1); }
   }
   .glow{
-    position:absolute; left:50%; top:14%;
+    position: absolute; left: 50%; top: 14%;
     width: 0; height: 0; border-radius: 50%;
     background: radial-gradient(circle, rgba(255,210,63,.55) 0%, rgba(255,210,63,0) 70%);
     transform: translate(-50%,-50%);
     opacity: 0;
     z-index: 1;
-    pointer-events:none;
+    pointer-events: none;
   }
-  .gift.opened .glow{
-    animation: burst .6s ease-out .15s forwards;
-  }
+  .gift.opened .glow{ animation: burst .6s ease-out .15s forwards; }
   @keyframes burst{
-    0%{ width:0; height:0; opacity:0; }
-    40%{ opacity:1; }
-    100%{ width: 340px; height: 340px; opacity:0; }
+    0%{ width: 0; height: 0; opacity: 0; }
+    40%{ opacity: 1; }
+    100%{ width: 340px; height: 340px; opacity: 0; }
   }
 
   .hint{
     margin-top: 5vh;
-    font-family:'Playfair Display', serif;
+    font-family: 'Playfair Display', serif;
     font-style: italic;
     font-size: clamp(13px, 3.4vw, 16px);
     letter-spacing: .5px;
     color: var(--accent);
-    animation: blink 1.4s steps(1) infinite;
+    animation: blink 1.4s ease-in-out infinite;
   }
-  @keyframes blink{ 0%,49%{ opacity:1; } 50%,100%{ opacity:0; } }
+  @keyframes blink{ 0%,100%{ opacity: 1; } 50%{ opacity: .3; } }
 
+  /* ---------- MENSAJE ---------- */
   .dialog{
     width: min(90vw, 560px);
     background: var(--rose);
@@ -188,7 +196,7 @@
     position: relative;
   }
   .to-name{
-    font-family:'Playfair Display', serif;
+    font-family: 'Playfair Display', serif;
     font-style: italic;
     font-size: clamp(18px, 4.4vw, 24px);
     color: var(--accent-deep);
@@ -201,60 +209,56 @@
     min-height: 7em;
     text-align: left;
     white-space: pre-wrap;
+    margin: 0;
   }
   .caret{
-    display:inline-block;
-    width: .5em;
-    background: var(--accent);
+    display: inline-block;
+    color: var(--accent);
     animation: blink .8s steps(1) infinite;
   }
   .continue-hint{
-    margin-top: 22px;
-    font-family:'Playfair Display', serif;
+    margin: 22px 0 0;
+    font-family: 'Playfair Display', serif;
     font-style: italic;
     font-size: clamp(13px, 3.2vw, 15px);
     color: var(--accent);
     opacity: 0;
     transition: opacity .4s;
   }
-  .continue-hint.show{ opacity: 1; animation: blink 1.2s steps(1) infinite; }
-  .screen#screen-message{ cursor: pointer; }
+  .continue-hint.show{ opacity: 1; animation: blink 1.2s ease-in-out infinite; }
+  #screen-message{ cursor: pointer; }
 
-  #screen-bouquet .pixel-bg-note{ display:none; }
+  /* ---------- RAMO ---------- */
   .stage{
     position: relative;
     width: min(90vw, 420px);
     height: 38vh;
     max-height: 300px;
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
   }
   .stem{
     position: absolute;
     bottom: 0;
     width: 10px;
+    margin-left: -5px;
     background: var(--green);
     transform-origin: bottom center;
     animation: grow 1s cubic-bezier(.22,1,.36,1) forwards;
     animation-delay: var(--d, 0s);
     height: 0;
   }
-  .stem.s1{ left: 50%; margin-left:-5px; --h: 42%; }
-  .stem.s2{ left: 38%; --h: 34%; background: var(--green-dark); }
-  .stem.s3{ left: 60%; --h: 34%; background: var(--green-dark); }
-  .stem.s4{ left: 30%; --h: 24%; }
-  .stem.s5{ left: 68%; --h: 24%; }
+  .stem.dark{ background: var(--green-dark); }
   @keyframes grow{ to{ height: var(--h); } }
 
   .leaf{
-    position:absolute;
+    position: absolute;
     width: 26px; height: 12px;
     background: var(--green);
     clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
     opacity: 0;
     animation: fadeUp .5s ease-out forwards;
+    animation-delay: var(--d, 1s);
   }
+  @keyframes fadeUp{ to{ opacity: 1; } }
 
   .lily{
     position: absolute;
@@ -268,67 +272,54 @@
     animation-delay: var(--d, 1s);
   }
   @keyframes bloom{
-    to{ transform: translate(-50%, 40%) scale(1) rotate(var(--r,0deg)); opacity:1; }
+    to{ transform: translate(-50%, 40%) scale(1) rotate(var(--r, 0deg)); opacity: 1; }
   }
   .petal{
-    position:absolute;
-    left:50%; top:50%;
+    position: absolute;
+    left: 50%; top: 50%;
     width: 40%; height: 68%;
     background: linear-gradient(180deg, var(--yellow-light) 0%, var(--yellow) 55%, var(--yellow-deep) 100%);
     clip-path: polygon(50% 0%, 82% 30%, 70% 78%, 60% 100%, 40% 100%, 30% 78%, 18% 30%);
     transform-origin: 50% 100%;
-    box-shadow: inset 0 0 0 1px rgba(169,27,44,.15);
   }
   .petal::after{
-    content:"";
-    position:absolute;
-    left:50%; top:14%;
+    content: "";
+    position: absolute;
+    left: 50%; top: 14%;
     width: 6%; height: 72%;
     background: var(--yellow-deep);
     transform: translateX(-50%);
-    opacity:.55;
+    opacity: .55;
   }
+  .petal.p1{ transform: translate(-50%,-100%) rotate(0deg); }
   .petal.p2{ transform: translate(-50%,-100%) rotate(72deg); }
   .petal.p3{ transform: translate(-50%,-100%) rotate(144deg); }
   .petal.p4{ transform: translate(-50%,-100%) rotate(216deg); }
   .petal.p5{ transform: translate(-50%,-100%) rotate(288deg); }
-  .petal:first-child{ transform: translate(-50%,-100%) rotate(0deg); }
   .lily-center{
-    position:absolute; left:50%; top:40%;
-    width: 20%; height:20%;
+    position: absolute; left: 50%; top: 50%;
+    width: 20%; height: 20%;
     background: var(--yellow-deep);
     border-radius: 50%;
     transform: translate(-50%,-50%);
     box-shadow: 0 0 0 3px var(--accent-soft) inset;
   }
-  .lily-center::before{
-    content:"";
-    position:absolute; inset: 22%;
-    background:
-      radial-gradient(circle, var(--accent-deep) 22%, transparent 24%) 15% 20%/40% 40% no-repeat,
-      radial-gradient(circle, var(--accent-deep) 22%, transparent 24%) 65% 15%/40% 40% no-repeat,
-      radial-gradient(circle, var(--accent-deep) 22%, transparent 24%) 35% 60%/40% 40% no-repeat,
-      radial-gradient(circle, var(--accent-deep) 22%, transparent 24%) 75% 65%/40% 40% no-repeat;
-    opacity:.7;
-  }
-
-  @keyframes fadeUp{ to{ opacity:1; } }
 
   .spark{
-    position:absolute;
-    width: 6px; height:6px;
+    position: absolute;
+    width: 6px; height: 6px;
     background: var(--yellow-light);
-    opacity:0;
+    opacity: 0;
     animation: sparkle 2.4s ease-in-out infinite;
   }
   @keyframes sparkle{
-    0%,100%{ opacity:0; transform: translateY(0) scale(.6); }
-    50%{ opacity:1; transform: translateY(-14px) scale(1); }
+    0%,100%{ opacity: 0; transform: translateY(0) scale(.6); }
+    50%{ opacity: 1; transform: translateY(-14px) scale(1); }
   }
 
   .closing{
-    margin-top: 5vh;
-    font-family:'Playfair Display', serif;
+    margin: 5vh 0 0;
+    font-family: 'Playfair Display', serif;
     font-style: italic;
     font-weight: 600;
     font-size: clamp(17px, 4vw, 22px);
@@ -339,7 +330,7 @@
 
   .replay{
     margin-top: 4vh;
-    font-family:'Playfair Display', serif;
+    font-family: 'Playfair Display', serif;
     font-size: clamp(13px, 3vw, 15px);
     letter-spacing: .5px;
     background: var(--accent);
@@ -374,30 +365,211 @@
 <body>
 
 <div class="pixel-bg" aria-hidden="true"></div>
-<div class="scanlines" aria-hidden="true"></div>
 
+<!-- PANTALLA 1: REGALO -->
 <section id="screen-intro" class="screen active">
-  <h1 class="title pixel-font">MI COLORADA</h1>
+  <h1 class="title serif-title">MI COLORADA</h1>
 
-  <button class="gift" id="giftBtn" aria-label="Abrir el regalo">
-    <div class="glow" aria-hidden="true"></div>
-    <div class="gift-lid"></div>
-    <div class="gift-body"></div>
-  </button>
-  <div class="gift-shadow" aria-hidden="true"></div>
+  <div class="gift-wrap">
+    <button class="gift" id="giftBtn" type="button" aria-label="Abrir el regalo">
+      <span class="glow" aria-hidden="true"></span>
+      <span class="gift-lid"></span>
+      <span class="gift-body"></span>
+    </button>
+    <div class="gift-shadow" aria-hidden="true"></div>
+  </div>
 
-  <p class="hint pixel-font">TOCA PARA ABRIR</p>
+  <p class="hint serif-title">TOCA PARA ABRIR</p>
 </section>
 
+<!-- PANTALLA 2: MENSAJE -->
 <section id="screen-message" class="screen">
   <div class="dialog">
-    <p class="to-name pixel-font">Mi amor:</p>
-    <p class="message" id="messageText"></p>
-    <p class="continue-hint pixel-font" id="continueHint">TOCA PARA CONTINUAR ▼</p>
+    <p class="to-name">Mi amor:</p>
+    <p class="message" id="messageText" aria-live="polite"></p>
+    <p class="continue-hint" id="continueHint">TOCA PARA CONTINUAR ▼</p>
   </div>
 </section>
 
+<!-- PANTALLA 3: RAMO -->
 <section id="screen-bouquet" class="screen">
-  <h1 class="title pixel-font" style="margin-bottom:2vh;">¡FELIZ DÍA!</h1>
+  <h1 class="title serif-title" style="margin-bottom:2vh;">¡FELIZ DÍA!</h1>
   <div class="stage" id="stage"></div>
-  <p class="closing pixel-font">que
+  <p class="closing">que todos tus días sean tan bonitos como tú <span class="heart">♥</span></p>
+  <button class="replay" id="replayBtn" type="button">VOLVER A VER</button>
+</section>
+
+<script>
+(function(){
+  // ====== EDITA AQUÍ TU MENSAJE ======
+  var MESSAGE =
+    "Quise regalarte algo que no se marchita: un ramo de lirios amarillos, " +
+    "como la alegría que le pones a mis días.\n\n" +
+    "Gracias por ser mi lugar favorito. Te amo, mi colorada.";
+  var TYPE_SPEED = 45; // ms por letra
+  // ===================================
+
+  var screens = {
+    intro:   document.getElementById('screen-intro'),
+    message: document.getElementById('screen-message'),
+    bouquet: document.getElementById('screen-bouquet')
+  };
+  var giftBtn   = document.getElementById('giftBtn');
+  var msgEl     = document.getElementById('messageText');
+  var hintEl    = document.getElementById('continueHint');
+  var stage     = document.getElementById('stage');
+  var replayBtn = document.getElementById('replayBtn');
+
+  var typeTimer = null, openTimer = null, confettiTimer = null;
+  var typing = false, typed = false, opening = false;
+
+  function show(name){
+    Object.keys(screens).forEach(function(k){
+      screens[k].classList.toggle('active', k === name);
+    });
+    window.scrollTo(0, 0);
+  }
+
+  /* ----- 1. abrir regalo ----- */
+  giftBtn.addEventListener('click', function(){
+    if (opening) return;
+    opening = true;
+    giftBtn.classList.add('opened');
+    openTimer = setTimeout(function(){
+      show('message');
+      startTyping();
+    }, 1000);
+  });
+
+  /* ----- 2. mensaje con efecto máquina de escribir ----- */
+  function startTyping(){
+    typing = true; typed = false;
+    hintEl.classList.remove('show');
+    msgEl.textContent = '';
+    var textNode = document.createTextNode('');
+    var caret = document.createElement('span');
+    caret.className = 'caret';
+    caret.textContent = '▌';
+    msgEl.appendChild(textNode);
+    msgEl.appendChild(caret);
+
+    var i = 0;
+    typeTimer = setInterval(function(){
+      i++;
+      textNode.nodeValue = MESSAGE.slice(0, i);
+      if (i >= MESSAGE.length) finishTyping();
+    }, TYPE_SPEED);
+  }
+
+  function finishTyping(){
+    clearInterval(typeTimer);
+    typing = false; typed = true;
+    msgEl.textContent = MESSAGE;
+    hintEl.classList.add('show');
+  }
+
+  screens.message.addEventListener('click', function(){
+    if (typing){ finishTyping(); return; }   // primer toque: mostrar todo
+    if (typed){ typed = false; showBouquet(); } // segundo toque: continuar
+  });
+
+  /* ----- 3. ramo de lirios ----- */
+  // x = posición horizontal (%), h = altura del tallo (%), s = tamaño del lirio (px)
+  var FLOWERS = [
+    { x: 50, h: 42, s: 92, r:   0, d: 1.0, dark: false },
+    { x: 38, h: 34, s: 82, r: -12, d: 1.2, dark: true  },
+    { x: 62, h: 34, s: 82, r:  12, d: 1.4, dark: true  },
+    { x: 28, h: 24, s: 70, r: -20, d: 1.6, dark: false },
+    { x: 72, h: 24, s: 70, r:  20, d: 1.8, dark: false }
+  ];
+
+  function buildLily(f){
+    var lily = document.createElement('div');
+    lily.className = 'lily';
+    lily.style.setProperty('--x', f.x + '%');
+    lily.style.setProperty('--y', f.h + '%');
+    lily.style.setProperty('--s', f.s + 'px');
+    lily.style.setProperty('--r', f.r + 'deg');
+    lily.style.setProperty('--d', f.d + 's');
+    for (var p = 1; p <= 5; p++){
+      var petal = document.createElement('div');
+      petal.className = 'petal p' + p;
+      lily.appendChild(petal);
+    }
+    var c = document.createElement('div');
+    c.className = 'lily-center';
+    lily.appendChild(c);
+    return lily;
+  }
+
+  function showBouquet(){
+    show('bouquet');
+    stage.innerHTML = '';
+
+    FLOWERS.forEach(function(f, idx){
+      var stem = document.createElement('div');
+      stem.className = 'stem' + (f.dark ? ' dark' : '');
+      stem.style.left = f.x + '%';
+      stem.style.setProperty('--h', f.h + '%');
+      stem.style.setProperty('--d', (idx * 0.15) + 's');
+      stage.appendChild(stem);
+
+      var leaf = document.createElement('div');
+      leaf.className = 'leaf';
+      leaf.style.left = (f.x + (idx % 2 ? 1 : -6)) + '%';
+      leaf.style.bottom = (f.h * 0.4) + '%';
+      leaf.style.setProperty('--d', (0.8 + idx * 0.15) + 's');
+      if (idx % 2) leaf.style.transform = 'scaleX(-1)';
+      stage.appendChild(leaf);
+
+      stage.appendChild(buildLily(f));
+    });
+
+    for (var i = 0; i < 12; i++){
+      var sp = document.createElement('div');
+      sp.className = 'spark';
+      sp.style.left = (8 + Math.random() * 84) + '%';
+      sp.style.bottom = (30 + Math.random() * 65) + '%';
+      sp.style.animationDelay = (2 + Math.random() * 2.4) + 's';
+      stage.appendChild(sp);
+    }
+
+    launchConfetti();
+  }
+
+  /* ----- confeti ----- */
+  var COLORS = ['#ffd23f', '#f2a900', '#C68E72', '#9C5A35', '#E4CFC6', '#3fa25a'];
+  function launchConfetti(){
+    clearConfetti();
+    for (var i = 0; i < 40; i++){
+      var c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = (Math.random() * 100) + 'vw';
+      c.style.background = COLORS[Math.floor(Math.random() * COLORS.length)];
+      c.style.animationDuration = (3 + Math.random() * 3) + 's';
+      c.style.animationDelay = (Math.random() * 1.5) + 's';
+      document.body.appendChild(c);
+    }
+    confettiTimer = setTimeout(clearConfetti, 8000);
+  }
+  function clearConfetti(){
+    clearTimeout(confettiTimer);
+    document.querySelectorAll('.confetti').forEach(function(n){ n.remove(); });
+  }
+
+  /* ----- volver a ver ----- */
+  replayBtn.addEventListener('click', function(){
+    clearTimeout(openTimer);
+    clearInterval(typeTimer);
+    clearConfetti();
+    typing = typed = opening = false;
+    giftBtn.classList.remove('opened');
+    stage.innerHTML = '';
+    msgEl.textContent = '';
+    hintEl.classList.remove('show');
+    show('intro');
+  });
+})();
+</script>
+</body>
+</html>
