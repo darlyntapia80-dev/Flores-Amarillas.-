@@ -36,7 +36,6 @@
     position:relative;
   }
 
-  /* ---------- fondo de cuadrícula de píxeles ---------- */
   .pixel-bg{
     position: fixed;
     inset: 0;
@@ -88,7 +87,6 @@
     margin: 0 0 6vh;
   }
 
-  /* ---------- caja de regalo pixelada ---------- */
   .gift{
     position: relative;
     width: min(46vw, 190px);
@@ -129,12 +127,12 @@
     position: relative;
     box-shadow: inset -10px -10px 0 rgba(0,0,0,.18), inset 10px 10px 0 rgba(255,255,255,.08);
   }
-  .gift-body::before{ /* franja vertical del lazo */
+  .gift-body::before{
     content:"";
     position:absolute; left:44%; top:0; width:12%; height:100%;
     background: var(--yellow);
   }
-  .gift-body::after{ /* franja horizontal del lazo */
+  .gift-body::after{
     content:"";
     position:absolute; left:0; top:38%; width:100%; height:14%;
     background: var(--yellow);
@@ -180,7 +178,6 @@
   }
   @keyframes blink{ 0%,49%{ opacity:1; } 50%,100%{ opacity:0; } }
 
-  /* ---------- pantalla del mensaje ---------- */
   .dialog{
     width: min(90vw, 560px);
     background: var(--blue-dark);
@@ -189,7 +186,7 @@
     padding: clamp(18px, 4vw, 34px);
     position: relative;
   }
-  .dialog::before{ /* muesca pixel en la esquina, estilo caja de diálogo retro */
+  .dialog::before{
     content:"";
     position:absolute; left:-4px; top:-4px;
     width:14px; height:14px;
@@ -228,13 +225,12 @@
   .continue-hint.show{ opacity: 1; animation: blink 1.2s steps(1) infinite; }
   .screen#screen-message{ cursor: pointer; }
 
-  /* ---------- pantalla del ramo ---------- */
   #screen-bouquet .pixel-bg-note{ display:none; }
   .stage{
     position: relative;
     width: min(90vw, 420px);
-    height: 46vh;
-    max-height: 360px;
+    height: 38vh;
+    max-height: 300px;
     display:flex;
     align-items:flex-end;
     justify-content:center;
@@ -282,10 +278,20 @@
   .petal{
     position:absolute;
     left:50%; top:50%;
-    width: 46%; height: 62%;
-    background: var(--yellow);
-    clip-path: polygon(50% 0%, 78% 22%, 100% 60%, 68% 60%, 50% 100%, 32% 60%, 0% 60%, 22% 22%);
+    width: 40%; height: 68%;
+    background: linear-gradient(180deg, var(--yellow-light) 0%, var(--yellow) 55%, var(--yellow-deep) 100%);
+    clip-path: polygon(50% 0%, 82% 30%, 70% 78%, 60% 100%, 40% 100%, 30% 78%, 18% 30%);
     transform-origin: 50% 100%;
+    box-shadow: inset 0 0 0 1px rgba(169,27,44,.15);
+  }
+  .petal::after{
+    content:"";
+    position:absolute;
+    left:50%; top:14%;
+    width: 6%; height: 72%;
+    background: var(--yellow-deep);
+    transform: translateX(-50%);
+    opacity:.55;
   }
   .petal.p2{ transform: translate(-50%,-100%) rotate(72deg); }
   .petal.p3{ transform: translate(-50%,-100%) rotate(144deg); }
@@ -293,11 +299,22 @@
   .petal.p5{ transform: translate(-50%,-100%) rotate(288deg); }
   .petal:first-child{ transform: translate(-50%,-100%) rotate(0deg); }
   .lily-center{
-    position:absolute; left:50%; top:38%;
-    width: 22%; height:22%;
+    position:absolute; left:50%; top:40%;
+    width: 20%; height:20%;
     background: var(--yellow-deep);
+    border-radius: 50%;
     transform: translate(-50%,-50%);
     box-shadow: 0 0 0 3px var(--red) inset;
+  }
+  .lily-center::before{
+    content:"";
+    position:absolute; inset: 22%;
+    background:
+      radial-gradient(circle, var(--red-dark) 22%, transparent 24%) 15% 20%/40% 40% no-repeat,
+      radial-gradient(circle, var(--red-dark) 22%, transparent 24%) 65% 15%/40% 40% no-repeat,
+      radial-gradient(circle, var(--red-dark) 22%, transparent 24%) 35% 60%/40% 40% no-repeat,
+      radial-gradient(circle, var(--red-dark) 22%, transparent 24%) 75% 65%/40% 40% no-repeat;
+    opacity:.7;
   }
 
   @keyframes fadeUp{ to{ opacity:1; } }
@@ -360,7 +377,6 @@
 <div class="pixel-bg" aria-hidden="true"></div>
 <div class="scanlines" aria-hidden="true"></div>
 
-<!-- PANTALLA 1: portada / caja de regalo -->
 <section id="screen-intro" class="screen active">
   <h1 class="title pixel-font">MI COLORADA</h1>
 
@@ -374,7 +390,6 @@
   <p class="hint pixel-font">TOCA PARA ABRIR</p>
 </section>
 
-<!-- PANTALLA 2: mensaje -->
 <section id="screen-message" class="screen">
   <div class="dialog">
     <p class="to-name pixel-font">Mi amor:</p>
@@ -383,7 +398,6 @@
   </div>
 </section>
 
-<!-- PANTALLA 3: ramo de lirios -->
 <section id="screen-bouquet" class="screen">
   <h1 class="title pixel-font" style="margin-bottom:2vh;">¡FELIZ DÍA!</h1>
   <div class="stage" id="stage"></div>
@@ -395,9 +409,6 @@
 (function(){
   "use strict";
 
-  // ============================================================
-  // ✏️ EDITA AQUÍ EL MENSAJE — cambia este texto por el que quieras
-  // ============================================================
   var MESSAGE = "Mi vida, todavía no entiendo cómo en tan poco tiempo lograste cautivar mi corazón y ganarte casi todo su territorio. Vivo enamorado de ti día a día. Gracias por cada momento vivido, por las caricias, los besos y el amor que me demuestras a diario. Que todo siga así, que sigamos aprendiendo juntos y, sobre todo, que sigamos amándonos igual o con mucha más intensidad de la que ya nos damos. Te amo y te amaré, hoy, mañana y siempre ";
 
   var screens = {
@@ -412,7 +423,6 @@
     });
   }
 
-  // ---------- Pantalla 1: abrir regalo ----------
   var giftBtn = document.getElementById('giftBtn');
   var opened = false;
   function openGift(){
@@ -429,7 +439,6 @@
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openGift(); }
   });
 
-  // ---------- Pantalla 2: máquina de escribir ----------
   var messageEl = document.getElementById('messageText');
   var continueHint = document.getElementById('continueHint');
   var typed = false;
@@ -473,7 +482,6 @@
 
   screens.message.addEventListener('click', function(){
     if (typing){
-      // saltar la animación de escritura
       typed = true; typing = false;
       messageEl.textContent = MESSAGE;
       continueHint.classList.add('show');
@@ -486,7 +494,6 @@
     }
   });
 
-  // ---------- Pantalla 3: ramo de lirios ----------
   var stage = document.getElementById('stage');
   var built = false;
 
@@ -519,11 +526,11 @@
     });
 
     var lilies = [
-      {x:'50%', y:'40%', s:96, r:0,   d:'0.9s'},
-      {x:'34%', y:'30%', s:74, r:-18, d:'1.1s'},
-      {x:'66%', y:'30%', s:74, r:18,  d:'1.25s'},
-      {x:'24%', y:'18%', s:58, r:-28, d:'1.4s'},
-      {x:'76%', y:'18%', s:58, r:28,  d:'1.5s'}
+      {x:'50%', y:'34%', s:84, r:0,   d:'0.9s'},
+      {x:'35%', y:'26%', s:64, r:-18, d:'1.1s'},
+      {x:'65%', y:'26%', s:64, r:18,  d:'1.25s'},
+      {x:'25%', y:'16%', s:50, r:-28, d:'1.4s'},
+      {x:'75%', y:'16%', s:50, r:28,  d:'1.5s'}
     ];
     lilies.forEach(function(l){
       var el = document.createElement('div');
